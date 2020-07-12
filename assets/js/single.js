@@ -21,7 +21,7 @@ var getRepoIssues = function (repo) {
 
     console.log(repo);
     var apiUrl = "https://api.github.com/repos/" + repo + "/issues?direction=asc";
-    
+
     fetch(apiUrl).then(function (response) {
         // request was successful
         if (response.ok) {
@@ -36,17 +36,27 @@ var getRepoIssues = function (repo) {
             });
         }
         else {
-            alert("There was a problem with your request!");
-        }
+            // if not successful, redirect to homepage
+            document.location.replace("./index.html");
+          }
     });
 };
 
-var getRepoName = function() {
+var getRepoName = function () {
     var queryString = document.location.search;
     var repoName = queryString.split("=")[1];
     getRepoIssues(repoName);
     repoNameEl.textContent = repoName;
-  }
+
+    if (repoName) {
+        repoNameEl.textContent = repoName;
+        getRepoIssues(repoName);
+    }
+
+    else {
+        document.location.replace("./index.html");
+      }
+}
 
 var displayIssues = function (issues) {
     if (issues.length === 0) {
